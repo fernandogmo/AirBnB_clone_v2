@@ -22,19 +22,17 @@ def do_deploy(archive_path):
     Returns `True` on success, else `False`.
     '''
     try:
-        run('ls -l /tmp/')
         tarfile = basename(archive_path)
         if exists('/tmp/' + tarfile):
-            print('FILE FOUND')
-            run('rm -r /tmp/' + tarfile)
-        run('ls -l /tmp/')
+            run('rm -rf /tmp/' + tarfile)
         put(archive_path, '/tmp/')
         dest = '/data/web_static/releases/' + tarfile.split('.')[0] + '/'
-        if exists(dest):
-            run('rm -r' + dest)
+        run('rm -rf ' + dest)
         run('mkdir -p ' + dest)
         run('tar -xzf /tmp/' + tarfile + ' -C ' + dest)
         run('rm -r /tmp/' + tarfile)
+        run('mv ' + dest + 'web_static/* ' + dest)
+        run('rm -rf ' + dest + 'web_static')
         run('unlink /data/web_static/current')
         run('ln -sf ' + dest + ' /data/web_static/current')
         print('New version deployed!')
