@@ -21,8 +21,6 @@ def do_pack():
         makedirs('versions')
     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
     filepath = 'versions/web_static_' + timestamp + '.tgz'
-    pack = local('tar -cvfz ' + filepath + ' web_static')
-    if exists(filepath):
-        return filepath
-    else:
-        return None
+    # local('echo ' + filepath)
+    pack = local('tar -cvzf ' + filepath + ' web_static')
+    return None if pack.failed else filepath

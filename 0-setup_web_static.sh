@@ -8,9 +8,43 @@ mkdir -p '/data/web_static/releases/test/'
 echo '<html><head></head><body>Hello Holberton!</body></html>' > '/data/web_static/releases/test/index.html'
 ln -sf 'releases/test/' '/data/web_static/current'
 chown -R ubuntu:ubuntu '/data/'
-# TODO Update the Nginx configuration to serve the content of /data/web_static/current/ to hbnb_static (ex: https://mydomainname.tech/hbnb_static)
 FILE=/etc/nginx/sites-available/default
-STATIC_SITE="\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current;\n\t}"
-sed -i "/^\tserver_name localhost;/a\ $STATIC_SITE" $FILE
-service nginx restart
+printf %s "server {
+ 	add_header X-Served-By $HOSTNAME;
+	listen 80 default_server;
+	listen [::]:80 default_server ipv6only=on;
 
+	root /usr/share/nginx/html;
+	index index.html index.htm;
+
+	# Make site accessible from http://localhost/
+	server_name localhost;
+
+	location /hbnb_static {
+		alias /data/web_static/current;
+		index index.html index.htm;
+	}
+
+	location /redirect_me {
+		return 301 https://www.fernando.ai;
+	}
+
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+		# Uncomment to enable naxsi on this location
+		# include /etc/nginx/naxsi.rules
+	}
+
+	error_page 404 /404.html;
+
+	# redirect server error pages to the static page /50x.html
+	#
+	#error_page 500 502 503 504 /50x.html;
+	#location = /50x.html {
+	#	root /usr/share/nginx/html;
+	#}
+}" > $FILE
+service nginx restart
