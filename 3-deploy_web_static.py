@@ -9,6 +9,7 @@ from os.path import exists, basename
 from fabric.api import *
 from datetime import datetime
 
+
 @runs_once
 def do_pack():
     '''
@@ -27,6 +28,7 @@ def do_pack():
 
 
 env.hosts = ['35.237.166.85', '35.227.65.117']
+
 
 def do_deploy(archive_path):
     '''
@@ -51,7 +53,7 @@ def do_deploy(archive_path):
         run('ln -sf ' + dest + ' /data/web_static/current')
         print('New version deployed!')
         return True
-    except:
+    except Except:
         return False
 
 
@@ -62,4 +64,4 @@ def deploy():
         exit_status = do_deploy(filepath)
         return exit_status
     else:
-	return False
+        return False
