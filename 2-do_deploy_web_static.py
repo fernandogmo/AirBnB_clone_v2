@@ -4,7 +4,8 @@ Fabric script (based on the file 1-pack_web_static.py) that
 distributes an archive to your web servers, using the
 function `do_deploy`.
 Usage:
-fab -f 2-do_deploy_web_static.py do_deploy:archive_path=versions/web_static_20170315003959.tgz -i my_ssh_private_key -u ubuntu
+fab -f 2-do_deploy_web_static.py do_deploy:archive_path=\
+        versions/web_static_20170315003959.tgz -i my_ssh_private_key -u ubuntu
 '''
 from os import makedirs
 from os.path import exists, basename
@@ -13,6 +14,7 @@ from datetime import datetime
 
 
 env.hosts = ['35.237.166.85', '35.227.65.117']
+
 
 def do_deploy(archive_path):
     '''
@@ -37,5 +39,5 @@ def do_deploy(archive_path):
         run('ln -sf ' + dest + ' /data/web_static/current')
         print('New version deployed!')
         return True
-    except:
+    except Exception:
         return False
