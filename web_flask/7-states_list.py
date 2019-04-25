@@ -22,7 +22,7 @@ def states_list():
 
 
 @app.teardown_appcontext
-def teardown_storage(exception):
+def teardown_storage(self):
     '''TODO'''
     storage.close()
 
