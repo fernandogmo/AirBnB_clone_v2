@@ -68,3 +68,7 @@ class FileStorage:
         Delete obj from __objects if obj in __objects.
         """
         del self.__objects["{}.{}".format(obj.__class__.__name__, obj.id)]
+
+    def close(self):
+        """ Closes file storage """
+        self.reload()
