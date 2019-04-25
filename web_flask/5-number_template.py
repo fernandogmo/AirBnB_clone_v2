@@ -19,7 +19,7 @@ Python is cool$
 $ curl -Ls 0.0.0.0:5000/python/ ; echo "" | cat -e
 Python is cool$
 '''
-from flask import Flask
+from flask import Flask, render_template
 app = Flask(__name__)
 
 

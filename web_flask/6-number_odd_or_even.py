@@ -1,5 +1,3 @@
-if __name__ == '__main__':
-    app.run()
 #!/usr/bin/python3
 '''
 Starts a Flask web application listening on 0.0.0.0, port 5000
@@ -21,7 +19,7 @@ Python is cool$
 $ curl -Ls 0.0.0.0:5000/python/ ; echo "" | cat -e
 Python is cool$
 '''
-from flask import Flask
+from flask import Flask, render_template
 app = Flask(__name__)
 
 
