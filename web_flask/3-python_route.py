@@ -43,7 +43,7 @@ def c_text(text):
 
 @app.route('/python', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def py_text="is cool"):
+def py_text(text="is cool"):
     '''
     Defines body of response to GET request to `python/` and `python/<text>`
     '''
